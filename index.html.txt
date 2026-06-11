@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سامانه صندوق قرض‌الحسنه مهر فامیلی</title>
+
+<style>
+:root{
+    --primary:#0f70d7;
+    --secondary:#10a7d9;
+    --accent:#f7c948;
+    --success:#16a34a;
+    --danger:#dc2626;
+    --warning:#f59e0b;
+    --dark:#0f172a;
+    --muted:#64748b;
+    --bg:#f1f5f9;
+    --card:#ffffff;
+    --border:#e2e8f0;
+    --radius:22px;
+    --shadow:0 18px 45px rgba(15,23,42,.10);
+}
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Tahoma,Arial,sans-serif;
+    background:radial-gradient(circle at top right,rgba(15,112,215,.18),transparent 35%),
+               radial-gradient(circle at bottom left,rgba(247,201,72,.20),transparent 35%),
+               var(--bg);
+    color:#1e293b;
+    line-height:1.8;
+}
+a{text-decoration:none;color:inherit}
+.hidden{display:none!important}
+.topbar{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:white;
+    box-shadow:0 8px 28px rgba(15,112,215,.25);
+}
+.topbar-inner{
+    max-width:1500px;
+    margin:auto;
+    padding:14px 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+}
+.brand{display:flex;align-items:center;gap:14px;min-width:270px}
+.logo-box{
+    width:68px;
+    height:68px;
+    border-radius:20px;
+    background:rgba(255,255,255,.18);
+    border:1px solid rgba(255,255,255,.35);
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.logo-box img{width:100%;height:100%;object-fit:cover}
+.logo-fallback{font-size:26px;font-weight:900}
+.brand h1{margin:0;font-size:18px;font-weight:900}
+.brand p{margin:2px 0 0;font-size:12px;opacity:.92}
+.main-nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+.main-nav a{
+    padding:9px 13px;
+    border-radius:999px;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.16);
+    font-size:13px;
+    transition:.2s;
+}
+.main-nav a:hover,.main-nav a.active{background:white;color:var(--primary)}
+.container{max-width:1500px;margin:26px auto;padding:0 22px}
+.section{display:none}
+.section.active{display:block}
+.card{
+    background:rgba(255,255,255,.94);
+    border:1px solid rgba(226,232,240,.90);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:22px;
+    margin-bottom:22px;
+}
+.card-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:18px;
+    padding-bottom:13px;
+    border-bottom:1px solid var(--border);
+}
+.card-title h2,.card-title h3{margin:0;color:var(--primary);font-size:20px}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:22px}
+.hero h2{font-size:31px;margin:0 0 12px;color:var(--dark)}
+.hero p{color:#475569;margin:0 0 18px}
+.hero-logo{
+    min-height:285px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:white;
+    overflow:hidden;
+    position:relative;
+}
+.hero-logo img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.hero-logo .fallback{text-align:center;z-index:2}
+.hero-logo .fallback b{display:block;font-size:38px;margin-bottom:8px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0 22px}
+.kpi{
+    background:white;
+    border-radius:18px;
+    border:1px solid var(--border);
+    padding:18px;
+    box-shadow:0 8px 24px rgba(15,23,42,.07);
+}
+.kpi span{color:var(--muted);font-size:12px}
+.kpi strong{display:block;font-size:22px;margin-top:7px;color:var(--dark)}
+.kpi.primary{border-top:4px solid var(--primary)}
+.kpi.success{border-top:4px solid var(--success)}
+.kpi.warning{border-top:4px solid var(--warning)}
+.kpi.danger{border-top:4px solid var(--danger)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.form-group{margin-bottom:14px}
+.form-group.full{grid-column:1/-1}
+label{display:block;font-size:13px;font-weight:700;margin-bottom:7px;color:#334155}
+input,select,textarea{
+    width:100%;
+    border:1px solid var(--border);
+    background:#fff;
+    border-radius:14px;
+    padding:12px 13px;
+    font-family:Tahoma,Arial,sans-serif;
+    font-size:14px;
+    outline:none;
+}
+textarea{resize:vertical}
+input:focus,select:focus,textarea:focus{
+    border-color:var(--primary);
+    box-shadow:0 0 0 4px rgba(15,112,215,.12);
+}
+.btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    border:none;
+    border-radius:14px;
+    padding:11px 16px;
+    cursor:pointer;
+    font-family:Tahoma,Arial,sans-serif;
+    font-weight:800;
+    background:var(--primary);
+    color:white;
+}
+.btn.success{background:var(--success)}
+.btn.danger{background:var(--danger)}
+.btn.warning{background:var(--warning);color:#111827}
+.btn.light{background:#e2e8f0;color:#0f172a}
+.btn.small{padding:7px 10px;font-size:12px;border-radius:10px}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.table-wrap{overflow:auto;border-radius:18px;border:1px solid var(--border);background:white}
+table{width:100%;border-collapse:collapse;min-width:980px}
+th,td{padding:12px 11px;border-bottom:1px solid var(--border);text-align:right;vertical-align:middle;font-size:13px}
+th{background:#f8fafc;color:#0f172a;font-weight:900}
+tr:hover td{background:#f8fafc}
+.badge{display:inline-flex;align-items:center;justify-content:center;padding:4px 9px;border-radius:999px;font-size:12px;font-weight:900}
+.badge.success{color:#166534;background:#dcfce7}
+.badge.warning{color:#92400e;background:#fef3c7}
+.badge.danger{color:#991b1b;background:#fee2e2}
+.badge.info{color:#075985;background:#e0f2fe}
+.notice{border-radius:18px;padding:15px;background:#fff7ed;border:1px solid #fed7aa;color:#7c2d12}
+.admin-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.admin-tabs button{
+    border:1px solid var(--border);
+    background:white;
+    color:#0f172a;
+    padding:10px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    font-family:Tahoma;
+    font-weight:800;
+}
+.admin-tabs button.active{background:var(--primary);color:white;border-color:var(--primary)}
+.filters{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px}
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,.62);
+    z-index:3000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+}
+.modal.show{display:flex}
+.modal-card{
+    width:min(920px,96vw);
+    max-height:92vh;
+    overflow:auto;
+    background:white;
+    border-radius:24px;
+    box-shadow:0 30px 90px rgba(0,0,0,.35);
+    padding:22px;
+    position:relative;
+}
+.modal-close{
+    position:absolute;
+    left:18px;
+    top:18px;
+    border:none;
+    background:#f1f5f9;
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:22px;
+}
+.modal-card h3{margin:0 0 18px;color:var(--primary);padding-left:40px}
+.toast{
+    position:fixed;
+    left:20px;
+    bottom:20px;
+    z-index:4000;
+    background:#0f172a;
+    color:white;
+    border-radius:16px;
+    padding:13px 16px;
+    box-shadow:0 16px 40px rgba(15,23,42,.30);
+    display:none;
+    max-width:440px;
+}
+.toast.show{display:block}
+.statement-box{background:#f8fafc;border:1px solid var(--border);border-radius:18px;padding:16px}
+.code{direction:ltr;unicode-bidi:plaintext;font-family:Consolas,monospace}
+.footer{text-align:center;color:#64748b;padding:25px}
+@media(max-width:1100px){
+    .hero,.grid-2,.grid-3{grid-template-columns:1fr}
+    .kpis{grid-template-columns:repeat(2,1fr)}
+    .filters{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:720px){
+    .topbar-inner{flex-direction:column;align-items:stretch}
+    .main-nav{justify-content:center}
+    .brand{justify-content:center;text-align:center}
+    .kpis,.form-grid,.filters{grid-template-columns:1fr}
+    .hero h2{font-size:23px}
+    .container{padding:0 12px}
+    table{min-width:820px}
+}
+@media print{
+    .topbar,.admin-tabs,.actions,.btn,.filters,.footer{display:none!important}
+    body{background:white}
+    .card{box-shadow:none;border:1px solid #ddd}
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="topbar-inner">
+        <div class="brand">
+            <div class="logo-box">
+                <img id="headerLogo" class="hidden" alt="لوگو">
+                <div id="headerLogoFallback" class="logo-fallback">م</div>
+            </div>
+            <div>
+                <h1 id="brandTitle">صندوق قرض‌الحسنه مهر فامیلی</h1>
+                <p id="brandSubtitle">سامانه مدیریت صندوق</p>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <a href="#" class="nav-link active" data-section="home">خانه</a>
+            <a href="#" class="nav-link" data-section="payment">ثبت پرداخت</a>
+            <a href="#" class="nav-link" data-section="loanRequest">درخواست وام</a>
+            <a href="#" class="nav-link" data-section="memberStatus">وضعیت من</a>
+            <a href="#" class="nav-link" data-section="admin">مدیریت</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+
+<section id="home" class="section active">
+    <div class="hero">
+        <div class="card">
+            <h2 id="homeTitle"></h2>
+            <p id="homeText"></p>
+            <div class="actions">
+                <button class="btn" onclick="goSection('payment')">ثبت پرداخت</button>
+                <button class="btn success" onclick="goSection('loanRequest')">درخواست وام</button>
+                <button class="btn light" onclick="goSection('memberStatus')">مشاهده وضعیت من</button>
+            </div>
+        </div>
+
+        <div class="card hero-logo">
+            <img id="homeLogo" class="hidden" alt="لوگو صندوق">
+            <div id="homeLogoFallback" class="fallback">
+                <b>مهر فامیلی</b>
+                <span>صندوق قرض‌الحسنه خانوادگی</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="kpis">
+        <div class="kpi primary"><span>موجودی صندوق</span><strong id="kpiBalance">۰</strong></div>
+        <div class="kpi success"><span>اعضای فعال</span><strong id="kpiMembers">۰</strong></div>
+        <div class="kpi warning"><span>وام‌های فعال</span><strong id="kpiActiveLoans">۰</strong></div>
+        <div class="kpi danger"><span>در انتظار بررسی</span><strong id="kpiPending">۰</strong></div>
+    </div>
+
+    <div class="grid-2">
+        <div class="card">
+            <div class="card-title"><h2>قوانین صندوق</h2></div>
+            <div id="rulesBox"></div>
+        </div>
+        <div class="card">
+            <div class="card-title"><h2>اطلاعیه و اطلاعات پرداخت</h2></div>
+            <div id="announcementBox" class="notice"></div>
+            <div style="margin-top:16px" id="contactBox"></div>
+        </div>
+    </div>
+</section>
+
+<section id="payment" class="section">
+    <div class="card">
+        <div class="card-title"><h2>ثبت پرداخت عضو</h2></div>
+
+        <form id="publicPaymentForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>نام و نام خانوادگی</label>
+                    <input name="fullName" id="payFullName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>شماره موبایل عضو</label>
+                    <input name="phone" id="paymentPhone" required placeholder="مثلاً 09121112222">
+                </div>
+
+                <div class="form-group">
+                    <label>نوع پرداخت</label>
+                    <select name="type" id="paymentType" required>
+                        <option value="share">واریز سهم ماهانه</option>
+                        <option value="installment">بازپرداخت قسط وام</option>
+                        <option value="income">پرداخت متفرقه</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>تاریخ پرداخت شمسی</label>
+                    <input name="dateJ" id="paymentDate" required placeholder="1403/01/15">
+                </div>
+
+                <div class="form-group">
+                    <label>ماه مربوطه</label>
+                    <input name="month" placeholder="مثلاً 1403/01">
+                </div>
+
+                <div class="form-group">
+                    <label>مبلغ</label>
+                    <input name="amount" id="paymentAmount" class="money-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label>وام مربوطه، برای قسط</label>
+                    <select name="loanId" id="paymentLoanSelect">
+                        <option value="">انتخاب نشده</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>روش پرداخت</label>
+                    <select name="method">
+                        <option value="card">کارت به کارت</option>
+                        <option value="gateway">درگاه پرداخت</option>
+                        <option value="bank">واریز بانکی</option>
+                        <option value="cash">نقدی</option>
+                        <option value="other">سایر</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>شماره پیگیری / رسید</label>
+                    <input name="ref" placeholder="اختیاری">
+                </div>
+
+                <div class="form-group full">
+                    <label>توضیحات</label>
+                    <textarea name="description" rows="3"></textarea>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn" type="submit">ثبت پرداخت برای بررسی مدیر</button>
+                <button class="btn success" type="button" onclick="openGateway()">پرداخت آنلاین</button>
+            </div>
+        </form>
+
+        <div class="notice" style="margin-top:18px">
+            پرداخت پس از تأیید مدیر در حسابداری صندوق اعمال می‌شود.
+        </div>
+    </div>
+</section>
+
+<section id="loanRequest" class="section">
+    <div class="card">
+        <div class="card-title"><h2>درخواست وام</h2></div>
+
+        <form id="publicLoanForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>شماره موبایل عضو</label>
+                    <input name="phone" required placeholder="شماره ثبت‌شده عضو">
+                </div>
+
+                <div class="form-group">
+                    <label>تاریخ درخواست شمسی</label>
+                    <input name="dateJ" id="loanDate" required placeholder="1403/01/15">
+                </div>
+
+                <div class="form-group">
+                    <label>مبلغ درخواستی</label>
+                    <input name="amount" class="money-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label>تعداد ماه بازپرداخت</label>
+                    <input name="months" type="number" required min="1">
+                </div>
+
+                <div class="form-group full">
+                    <label>علت / توضیح درخواست</label>
+                    <textarea name="reason" required rows="4"></textarea>
+                </div>
+            </div>
+
+            <button class="btn success" type="submit">ثبت درخواست وام</button>
+        </form>
+
+        <div class="notice" style="margin-top:18px" id="loanRulesHint"></div>
+    </div>
+</section>
+
+<section id="memberStatus" class="section">
+    <div class="card">
+        <div class="card-title"><h2>مشاهده وضعیت حساب عضو</h2></div>
+
+        <form id="statusForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>شماره موبایل</label>
+                    <input name="phone" required placeholder="شماره موبایل ثبت‌شده">
+                </div>
+            </div>
+            <button class="btn" type="submit">نمایش وضعیت</button>
+        </form>
+
+        <div id="memberStatusResult" style="margin-top:22px"></div>
+    </div>
+</section>
+
+<section id="admin" class="section">
+    <div id="loginCard" class="card" style="max-width:520px;margin:auto">
+        <div class="card-title"><h2>ورود مدیر صندوق</h2></div>
+
+        <form id="adminLoginForm">
+            <div class="form-group">
+                <label>ایمیل مدیر</label>
+                <input name="email" type="email" required placeholder="ایمیلی که در Supabase Auth می‌سازیم">
+            </div>
+
+            <div class="form-group">
+                <label>رمز عبور</label>
+                <input name="password" type="password" required>
+            </div>
+
+            <button class="btn" type="submit">ورود مدیر</button>
+        </form>
+
+        <small>در مرحله بعد یک کاربر مدیر در Supabase Auth می‌سازیم.</small>
+    </div>
+
+    <div id="adminPanel" class="hidden">
+        <div class="card">
+            <div class="card-title">
+                <h2>پنل مدیریت صندوق</h2>
+                <button class="btn danger small" onclick="adminLogout()">خروج</button>
+            </div>
+
+            <div class="admin-tabs">
+                <button class="admin-tab active" data-view="dashboard" onclick="setAdminView('dashboard')">داشبورد</button>
+                <button class="admin-tab" data-view="members" onclick="setAdminView('members')">اعضا</button>
+                <button class="admin-tab" data-view="transactions" onclick="setAdminView('transactions')">عملیات مالی</button>
+                <button class="admin-tab" data-view="loans" onclick="setAdminView('loans')">وام‌ها</button>
+                <button class="admin-tab" data-view="requests" onclick="setAdminView('requests')">درخواست‌های وام</button>
+                <button class="admin-tab" data-view="reports" onclick="setAdminView('reports')">گزارش‌ها</button>
+                <button class="admin-tab" data-view="settings" onclick="setAdminView('settings')">تنظیمات</button>
+            </div>
+
+            <div id="adminContent"></div>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<div id="modal" class="modal">
+    <div class="modal-card">
+        <button class="modal-close" onclick="closeModal()">×</button>
+        <h3 id="modalTitle"></h3>
+        <div id="modalBody"></div>
+    </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<footer class="footer">
+    <div id="footerText">سامانه مدیریت صندوق قرض‌الحسنه مهر فامیلی</div>
+</footer>
+
+<script>
+const SUPABASE_URL = "https://iilussnrqettvrqwxqwy.supabase.co";
+const SUPABASE_KEY = "sb_publishable_sLLe7L7k1gj1SzUl_01H6w_1nQ8YWRz";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const DEFAULT_SETTINGS = {
+    fundName:"صندوق قرض‌الحسنه خانوادگی مهر فامیلی",
+    shortName:"مهر فامیلی",
+    establishedYear:"۱۳۹۵",
+    monthlyShare:4000000,
+    currency:"ریال",
+    homeTitle:"صندوق قرض‌الحسنه خانوادگی مهر فامیلی",
+    homeText:"سامانه یکپارچه مدیریت اعضا، پرداخت‌ها، وام‌ها، اقساط و حسابداری صندوق خانوادگی.",
+    announcement:"به سامانه صندوق مهر فامیلی خوش آمدید. پرداخت‌ها و درخواست‌های وام پس از بررسی مدیر تأیید می‌شوند.",
+    rules:`۱. سهم ماهانه هر عضو طبق تعداد سهم او محاسبه می‌شود.
+۲. پرداخت‌ها پس از تأیید مدیر در حسابداری اعمال می‌شوند.
+۳. درخواست وام توسط مدیر بررسی و تأیید می‌شود.
+۴. مانده وام، اقساط پرداخت‌شده و بدهکاری هر عضو در بخش وضعیت من قابل مشاهده است.`,
+    bankCard:"",
+    sheba:"",
+    accountOwner:"",
+    contactPhone:"",
+    contactEmail:"",
+    contactAddress:"",
+    gatewayTitle:"زرین‌پال",
+    gatewayLink:"",
+    gatewayEnabled:false,
+    minMembershipMonths:6,
+    minSharePayments:6,
+    minLoanAmount:1000000,
+    maxLoanMultiplier:20,
+    maxLoanFixed:80000000,
+    minLoanMonths:1,
+    maxLoanMonths:24,
+    defaultLoanMonths:12,
+    feePercent:2,
+    primary:"#0f70d7",
+    secondary:"#10a7d9",
+    accent:"#f7c948",
+    logoData:""
+};
+
+const TX_TYPES = {
+    opening:{label:"مانده اولیه",direction:"in"},
+    share:{label:"واریز سهم ماهانه",direction:"in"},
+    installment:{label:"بازپرداخت قسط وام",direction:"in"},
+    fee:{label:"کارمزد وام",direction:"in"},
+    income:{label:"درآمد / واریز متفرقه",direction:"in"},
+    adjustment_in:{label:"اصلاحیه افزایشی",direction:"in"},
+    loan_disbursement:{label:"پرداخت وام",direction:"out"},
+    expense:{label:"هزینه صندوق",direction:"out"},
+    withdrawal:{label:"برداشت",direction:"out"},
+    adjustment_out:{label:"اصلاحیه کاهشی",direction:"out"}
+};
+
+const STATUS = {
+    approved:{label:"تأیید شده",class:"success"},
+    pending:{label:"در انتظار",class:"warning"},
+    rejected:{label:"رد شده",class:"danger"},
+    cancelled:{label:"لغو شده",class:"danger"}
+};
+
+let app = {
+    settings:{...DEFAULT_SETTINGS},
+    members:[],
+    transactions:[],
+    loans:[],
+    loanRequests:[],
+    admin:false,
+    view:"dashboard"
+};
+
+function $(id){return document.getElementById(id)}
+function qa(s){return Array.from(document.querySelectorAll(s))}
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function nl2br(v){return esc(v).replace(/\n/g,"<br>")}
+function normalizeDigits(str){return String(str??"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d))}
+function toNumber(v){return Number(normalizeDigits(v).replace(/,/g,"").replace(/[^\d.-]/g,""))||0}
+function formatInputNumber(v){let n=toNumber(v);return n?n.toLocaleString("en-US"):""}
+function money(n){return (Number(n)||0).toLocaleString("en-US")+" "+app.settings.currency}
+function todayJ(){
+    const parts=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date());
+    const y=normalizeDigits(parts.find(p=>p.type==="year").value);
+    const m=normalizeDigits(parts.find(p=>p.type==="month").value).padStart(2,"0");
+    const d=normalizeDigits(parts.find(p=>p.type==="day").value).padStart(2,"0");
+    return `${y}/${m}/${d}`;
+}
+function normalizeDateJ(v){
+    let s=normalizeDigits(v).trim().replace(/-/g,"/").replace(/\./g,"/");
+    const p=s.split("/");
+    if(p.length>=3)return `${p[0].padStart(4,"0")}/${p[1].padStart(2,"0")}/${p[2].padStart(2,"0")}`;
+    return s;
+}
+function dateKey(v){return normalizeDateJ(v).replace(/\D/g,"")||"00000000"}
+function monthNumberJ(v){const p=normalizeDateJ(v).split("/").map(Number);return p.length>=2?p[0]*12+p[1]:0}
+function signedTx(t){return (t.direction||(TX_TYPES[t.type]?.direction||"in"))==="out"?-(Number(t.amount)||0):(Number(t.amount)||0)}
+function approvedTx(){return app.transactions.filter(t=>t.status==="approved")}
+function fundBalance(){return approvedTx().reduce((s,t)=>s+signedTx(t),0)}
+function totalIncome(){return approvedTx().filter(t=>signedTx(t)>0).reduce((s,t)=>s+signedTx(t),0)}
+function totalOutflow(){return Math.abs(approvedTx().filter(t=>signedTx(t)<0).reduce((s,t)=>s+signedTx(t),0))}
+function memberName(id,fallback="بدون عضو"){return app.members.find(m=>m.id===id)?.full_name || fallback}
+function typeLabel(t){return TX_TYPES[t]?.label||t}
+function statusBadge(st){const s=STATUS[st]||STATUS.pending;return `<span class="badge ${s.class}">${s.label}</span>`}
+function loanPaidAmount(id,txs=app.transactions){return txs.filter(t=>t.loan_id===id&&t.type==="installment"&&t.status==="approved").reduce((s,t)=>s+Number(t.amount||0),0)}
+function loanRemaining(l,txs=app.transactions){return Math.max(Number(l.principal||0)-loanPaidAmount(l.id,txs),0)}
+function loanDueInfo(l,txs=app.transactions){
+    const paid=loanPaidAmount(l.id,txs);
+    const inst=Number(l.installment||0)||Math.ceil(Number(l.principal||0)/(Number(l.months)||1));
+    const dueCount=Math.min(Number(l.months)||0,Math.max(0,monthNumberJ(todayJ())-monthNumberJ(l.date_j)));
+    const dueAmount=Math.max(0,Math.min(inst*dueCount,Number(l.principal)||0)-paid);
+    return {paid,remaining:Math.max(Number(l.principal||0)-paid,0),dueAmount};
+}
+function showToast(text,type="info"){
+    const t=$("toast");
+    t.textContent=text;
+    t.style.background=type==="success"?"#166534":type==="danger"?"#991b1b":type==="warning"?"#92400e":"#0f172a";
+    t.classList.add("show");
+    setTimeout(()=>t.classList.remove("show"),4200);
+}
+function bindMoneyInputs(){
+    qa(".money-input").forEach(i=>{
+        i.oninput=()=>{i.value=formatInputNumber(i.value)};
+        if(i.value)i.value=formatInputNumber(i.value);
+    });
+}
+
+async function loadSettings(){
+    const {data,error}=await db.from("fund_settings").select("*").eq("id",1).single();
+    if(error){showToast("خطا در خواندن تنظیمات: "+error.message,"danger");return}
+    const extra=data.settings||{};
+    app.settings={
+        ...DEFAULT_SETTINGS,
+        ...extra,
+        fundName:data.fund_name||DEFAULT_SETTINGS.fundName,
+        shortName:data.short_name||DEFAULT_SETTINGS.shortName,
+        establishedYear:data.established_year||DEFAULT_SETTINGS.establishedYear,
+        monthlyShare:Number(data.monthly_share||DEFAULT_SETTINGS.monthlyShare),
+        currency:data.currency||DEFAULT_SETTINGS.currency,
+        gatewayTitle:data.gateway_title||DEFAULT_SETTINGS.gatewayTitle,
+        gatewayLink:data.gateway_link||"",
+        gatewayEnabled:!!data.gateway_enabled
+    };
+    applySettings();
+}
+
+function applySettings(){
+    const s=app.settings;
+    document.documentElement.style.setProperty("--primary",s.primary);
+    document.documentElement.style.setProperty("--secondary",s.secondary);
+    document.documentElement.style.setProperty("--accent",s.accent);
+    $("brandTitle").textContent=s.fundName;
+    $("brandSubtitle").textContent=`تأسیس ${s.establishedYear} | سهم پایه ${money(s.monthlyShare)} | موجودی ${money(fundBalance())}`;
+    $("homeTitle").textContent=s.homeTitle;
+    $("homeText").innerHTML=nl2br(s.homeText);
+    $("rulesBox").innerHTML=nl2br(s.rules);
+    $("announcementBox").innerHTML=nl2br(s.announcement);
+    $("loanRulesHint").innerHTML=`حداقل عضویت ${s.minMembershipMonths} ماه | حداقل سهم پرداختی ${s.minSharePayments} ماه | اقساط مجاز ${s.minLoanMonths} تا ${s.maxLoanMonths} ماه`;
+    $("contactBox").innerHTML=`
+        <p><b>شماره کارت:</b> <span class="code">${esc(s.bankCard||"ثبت نشده")}</span></p>
+        <p><b>شبا:</b> <span class="code">${esc(s.sheba||"ثبت نشده")}</span></p>
+        <p><b>صاحب حساب:</b> ${esc(s.accountOwner||"ثبت نشده")}</p>
+        <p><b>درگاه پرداخت:</b> ${s.gatewayEnabled&&s.gatewayLink?`<a href="${esc(s.gatewayLink)}" target="_blank" style="color:var(--primary);font-weight:bold">${esc(s.gatewayTitle)}</a>`:"ثبت نشده"}</p>
+        <p><b>تلفن:</b> ${esc(s.contactPhone||"ثبت نشده")}</p>
+    `;
+    $("footerText").textContent=s.fundName;
+    applyLogo();
+    renderHomeKpis();
+}
+function applyLogo(){
+    const logo=app.settings.logoData;
+    const hi=$("headerLogo"), hf=$("headerLogoFallback"), li=$("homeLogo"), lf=$("homeLogoFallback");
+    function img(src){hi.src=src;li.src=src;hi.classList.remove("hidden");li.classList.remove("hidden");hf.classList.add("hidden");lf.classList.add("hidden")}
+    function fallback(){hi.classList.add("hidden");li.classList.add("hidden");hf.classList.remove("hidden");lf.classList.remove("hidden")}
+    if(logo) img(logo);
+    else{
+        const test=new Image();
+        test.onload=()=>img("logo.jpg");
+        test.onerror=fallback;
+        test.src="logo.jpg";
+    }
+}
+function renderHomeKpis(){
+    $("kpiBalance").textContent=money(fundBalance());
+    $("kpiMembers").textContent=app.members.filter(m=>m.status==="active").length.toLocaleString("fa-IR");
+    $("kpiActiveLoans").textContent=app.loans.filter(l=>l.status!=="cancelled"&&loanRemaining(l)>0).length.toLocaleString("fa-IR");
+    $("kpiPending").textContent=(app.transactions.filter(t=>t.status==="pending").length+app.loanRequests.filter(r=>r.status==="pending").length).toLocaleString("fa-IR");
+}
+
+function goSection(id){
+    qa(".section").forEach(s=>s.classList.remove("active"));
+    $(id).classList.add("active");
+    qa(".nav-link").forEach(a=>a.classList.toggle("active",a.dataset.section===id));
+}
+qa(".nav-link").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();goSection(a.dataset.section)}));
+
+function openGateway(){
+    if(!app.settings.gatewayEnabled||!app.settings.gatewayLink){showToast("لینک درگاه هنوز ثبت نشده است.","warning");return}
+    window.open(app.settings.gatewayLink,"_blank");
+}
+
+async function loadAdminData(){
+    const [m,t,l,r]=await Promise.all([
+        db.from("members").select("*").order("created_at",{ascending:false}),
+        db.from("transactions").select("*").order("date_j",{ascending:false}),
+        db.from("loans").select("*").order("date_j",{ascending:false}),
+        db.from("loan_requests").select("*").order("date_j",{ascending:false})
+    ]);
+    if(m.error||t.error||l.error||r.error){
+        showToast("خطا در خواندن اطلاعات. احتمالاً کاربر مدیر هنوز ساخته نشده یا وارد نشده‌اید.","danger");
+        return false;
+    }
+    app.members=m.data||[];
+    app.transactions=t.data||[];
+    app.loans=l.data||[];
+    app.loanRequests=r.data||[];
+    renderHomeKpis();
+    return true;
+}
+
+async function publicMemberStatementByPhone(phone){
+    const {data,error}=await db.rpc("get_member_statement",{p_phone:normalizeDigits(phone)});
+    if(error)throw error;
+    return data;
+}
+
+$("paymentPhone").addEventListener("blur",async function(){
+    const phone=this.value.trim();
+    if(!phone)return;
+    try{
+        const res=await publicMemberStatementByPhone(phone);
+        if(res?.ok){
+            $("payFullName").value=res.member.full_name||"";
+            const amount=Number(app.settings.monthlyShare)*(Number(res.member.share_count)||1);
+            if($("paymentType").value==="share")$("paymentAmount").value=formatInputNumber(amount);
+            renderPublicLoanOptions(res.loans||[]);
+        }
+    }catch(e){}
+});
+$("paymentType").addEventListener("change",function(){
+    if(this.value==="share"&&!$("paymentAmount").value)$("paymentAmount").value=formatInputNumber(app.settings.monthlyShare);
+});
+function renderPublicLoanOptions(loans){
+    $("paymentLoanSelect").innerHTML=`<option value="">انتخاب نشده</option>`+(loans||[]).map(l=>`<option value="${l.id}">وام ${money(l.principal)}</option>`).join("");
+}
+
+$("publicPaymentForm").addEventListener("submit",async function(e){
+    e.preventDefault();
+    const f=new FormData(this);
+    const amount=toNumber(f.get("amount"));
+    if(amount<=0){showToast("مبلغ معتبر نیست.","danger");return}
+    const loanId=f.get("loanId")||null;
+    const {error}=await db.rpc("submit_payment",{
+        p_full_name:f.get("fullName"),
+        p_phone:normalizeDigits(f.get("phone")),
+        p_type:f.get("type"),
+        p_amount:amount,
+        p_date_j:normalizeDateJ(f.get("dateJ")),
+        p_month:f.get("month")||"",
+        p_method:f.get("method")||"",
+        p_ref:f.get("ref")||"",
+        p_description:f.get("description")||"",
+        p_loan_id:loanId
+    });
+    if(error){showToast("خطا در ثبت پرداخت: "+error.message,"danger");return}
+    this.reset();
+    $("paymentDate").value=todayJ();
+    showToast("پرداخت ثبت شد و در انتظار تأیید مدیر قرار گرفت.","success");
+});
+
+$("publicLoanForm").addEventListener("submit",async function(e){
+    e.preventDefault();
+    const f=new FormData(this);
+    const {error}=await db.rpc("submit_loan_request",{
+        p_phone:normalizeDigits(f.get("phone")),
+        p_amount:toNumber(f.get("amount")),
+        p_months:Number(f.get("months")),
+        p_date_j:normalizeDateJ(f.get("dateJ")),
+        p_reason:f.get("reason")
+    });
+    if(error){showToast(error.message==="member_not_found"?"عضو با این شماره یافت نشد.":"خطا در ثبت درخواست: "+error.message,"danger");return}
+    this.reset();
+    $("loanDate").value=todayJ();
+    showToast("درخواست وام ثبت شد.","success");
+});
+
+$("statusForm").addEventListener("submit",async function(e){
+    e.preventDefault();
+    const phone=normalizeDigits(new FormData(this).get("phone"));
+    try{
+        const res=await publicMemberStatementByPhone(phone);
+        if(!res.ok){$("memberStatusResult").innerHTML=`<div class="notice">عضوی با این شماره موبایل یافت نشد.</div>`;return}
+        $("memberStatusResult").innerHTML=renderStatement(res,true);
+    }catch(err){
+        $("memberStatusResult").innerHTML=`<div class="notice">خطا: ${esc(err.message)}</div>`;
+    }
+});
+
+function memberSummaryFromData(member,txs,loans){
+    const share=txs.filter(t=>t.type==="share"&&t.status==="approved").reduce((s,t)=>s+Number(t.amount||0),0);
+    const paidInstallments=txs.filter(t=>t.type==="installment"&&t.status==="approved").reduce((s,t)=>s+Number(t.amount||0),0);
+    const remaining=loans.reduce((s,l)=>s+loanRemaining(l,txs),0);
+    const overdue=loans.reduce((s,l)=>s+loanDueInfo(l,txs).dueAmount,0);
+    return {share,paidInstallments,remaining,overdue,net:share-remaining};
+}
+function renderStatement(res,withPdf){
+    const m=res.member, txs=res.transactions||[], loans=res.loans||[], reqs=res.loan_requests||[];
+    const sum=memberSummaryFromData(m,txs,loans);
+    return `
+        <div id="statementPdfArea">
+            <div class="statement-box">
+                <div class="card-title">
+                    <h3>صورت‌حساب ${esc(m.full_name)}</h3>
+                    ${withPdf?`<button class="btn light small" onclick="pdfElement('statementPdfArea','member-statement.pdf')">PDF</button>`:""}
+                </div>
+                <p>موبایل: <span class="code">${esc(m.phone)}</span> | کد عضویت: ${esc(m.code||"-")} | تعداد سهم: <b>${m.share_count||1}</b></p>
+                <p>سهم ماهانه این عضو: <b>${money(Number(app.settings.monthlyShare)*(Number(m.share_count)||1))}</b></p>
+                <div class="kpis">
+                    <div class="kpi success"><span>بستانکاری سهم</span><strong>${money(sum.share)}</strong></div>
+                    <div class="kpi primary"><span>اقساط پرداخت‌شده</span><strong>${money(sum.paidInstallments)}</strong></div>
+                    <div class="kpi warning"><span>مانده وام</span><strong>${money(sum.remaining)}</strong></div>
+                    <div class="kpi danger"><span>اقساط سررسید/معوق</span><strong>${money(sum.overdue)}</strong></div>
+                </div>
+                <div class="notice">مانده خالص عضو: <b>${money(sum.net)}</b></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><h3>وام‌ها</h3></div>
+                <div class="table-wrap"><table>
+                    <thead><tr><th>تاریخ</th><th>اصل وام</th><th>اقساط</th><th>قسط ماهانه</th><th>پرداخت‌شده</th><th>مانده</th><th>سررسید/معوق</th><th>وضعیت</th></tr></thead>
+                    <tbody>
+                    ${loans.length?loans.map(l=>{
+                        const d=loanDueInfo(l,txs);
+                        return `<tr><td>${esc(l.date_j)}</td><td>${money(l.principal)}</td><td>${l.months}</td><td>${money(l.installment)}</td><td>${money(d.paid)}</td><td>${money(d.remaining)}</td><td>${money(d.dueAmount)}</td><td>${d.remaining<=0?`<span class="badge success">تسویه شده</span>`:`<span class="badge info">فعال</span>`}</td></tr>`;
+                    }).join(""):`<tr><td colspan="8">وامی ثبت نشده است.</td></tr>`}
+                    </tbody>
+                </table></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><h3>تراکنش‌ها</h3></div>
+                <div class="table-wrap"><table>
+                    <thead><tr><th>تاریخ</th><th>نوع</th><th>مبلغ</th><th>وضعیت</th><th>توضیحات</th></tr></thead>
+                    <tbody>
+                    ${txs.length?txs.map(t=>`<tr><td>${esc(t.date_j)}</td><td>${esc(typeLabel(t.type))}</td><td>${money(t.amount)}</td><td>${statusBadge(t.status)}</td><td>${esc(t.description||"")}</td></tr>`).join(""):`<tr><td colspan="5">تراکنشی ثبت نشده است.</td></tr>`}
+                    </tbody>
+                </table></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><h3>درخواست‌های وام</h3></div>
+                <div class="table-wrap"><table>
+                    <thead><tr><th>تاریخ</th><th>مبلغ</th><th>اقساط</th><th>وضعیت</th><th>نظر مدیر</th></tr></thead>
+                    <tbody>
+                    ${reqs.length?reqs.map(r=>`<tr><td>${esc(r.date_j)}</td><td>${money(r.amount)}</td><td>${r.months}</td><td>${statusBadge(r.status)}</td><td>${esc(r.decision_note||"")}</td></tr>`).join(""):`<tr><td colspan="5">درخواستی ثبت نشده است.</td></tr>`}
+                    </tbody>
+                </table></div>
+            </div>
+        </div>
+    `;
+}
+
+$("adminLoginForm").addEventListener("submit",async function(e){
+    e.preventDefault();
+    const f=new FormData(this);
+    const {error}=await db.auth.signInWithPassword({email:f.get("email"),password:f.get("password")});
+    if(error){showToast("ورود ناموفق: "+error.message,"danger");return}
+    app.admin=true;
+    $("loginCard").classList.add("hidden");
+    $("adminPanel").classList.remove("hidden");
+    await loadAdminData();
+    setAdminView("dashboard");
+    showToast("مدیر وارد شد.","success");
+});
+async function adminLogout(){
+    await db.auth.signOut();
+    app.admin=false;
+    $("loginCard").classList.remove("hidden");
+    $("adminPanel").classList.add("hidden");
+}
+function setAdminView(v){
+    app.view=v;
+    qa(".admin-tab").forEach(b=>b.classList.toggle("active",b.dataset.view===v));
+    renderAdmin();
+}
+function renderAdmin(){
+    if(app.view==="dashboard")renderDashboard();
+    if(app.view==="members")renderMembers();
+    if(app.view==="transactions")renderTransactions();
+    if(app.view==="loans")renderLoans();
+    if(app.view==="requests")renderRequests();
+    if(app.view==="reports")renderReports();
+    if(app.view==="settings")renderSettings();
+    bindMoneyInputs();
+}
+
+function renderDashboard(){
+    $("adminContent").innerHTML=`
+        <div class="kpis">
+            <div class="kpi primary"><span>موجودی صندوق</span><strong>${money(fundBalance())}</strong></div>
+            <div class="kpi success"><span>کل ورودی</span><strong>${money(totalIncome())}</strong></div>
+            <div class="kpi danger"><span>کل خروجی</span><strong>${money(totalOutflow())}</strong></div>
+            <div class="kpi warning"><span>در انتظار</span><strong>${(app.transactions.filter(t=>t.status==="pending").length+app.loanRequests.filter(r=>r.status==="pending").length).toLocaleString("fa-IR")}</strong></div>
+        </div>
+        <div class="card">
+            <div class="actions">
+                <button class="btn small" onclick="openMemberForm()">افزودن عضو</button>
+                <button class="btn success small" onclick="openTxForm()">ثبت سند مالی</button>
+                <button class="btn warning small" onclick="openLoanForm()">ثبت وام</button>
+            </div>
+        </div>`;
+}
+
+function memberOptions(selected="",empty=true){
+    return `${empty?`<option value="">بدون عضو</option>`:""}`+app.members.map(m=>`<option value="${m.id}" ${m.id===selected?"selected":""}>${esc(m.full_name)} - ${esc(m.phone)}</option>`).join("");
+}
+function loanOptions(selected=""){
+    return `<option value="">بدون وام</option>`+app.loans.map(l=>`<option value="${l.id}" ${l.id===selected?"selected":""}>${esc(memberName(l.member_id))} | ${money(l.principal)}</option>`).join("");
+}
+function txTypeOptions(selected="share"){
+    return Object.entries(TX_TYPES).map(([k,v])=>`<option value="${k}" ${k===selected?"selected":""}>${v.label}</option>`).join("");
+}
+
+function renderMembers(){
+    $("adminContent").innerHTML=`
+        <div class="card">
+            <div class="card-title">
+                <h3>اعضا</h3>
+                <div class="actions">
+                    <button class="btn small" onclick="openMemberForm()">افزودن عضو</button>
+                    <button class="btn light small" onclick="downloadCSV('members.csv',membersCSV())">Excel</button>
+                    <button class="btn light small" onclick="pdfElement('membersTable','members.pdf')">PDF</button>
+                </div>
+            </div>
+            <div class="table-wrap" id="membersTable"><table>
+                <thead><tr><th>کد</th><th>نام</th><th>موبایل</th><th>تاریخ عضویت</th><th>تعداد سهم</th><th>سهم ماهانه</th><th>وضعیت</th><th>عملیات</th></tr></thead>
+                <tbody>
+                ${app.members.length?app.members.map(m=>`<tr>
+                    <td>${esc(m.code||"")}</td>
+                    <td>${esc(m.full_name)}</td>
+                    <td class="code">${esc(m.phone)}</td>
+                    <td>${esc(m.join_date_j||"")}</td>
+                    <td>${m.share_count||1}</td>
+                    <td>${money(Number(app.settings.monthlyShare)*(Number(m.share_count)||1))}</td>
+                    <td>${m.status==="active"?`<span class="badge success">فعال</span>`:`<span class="badge danger">غیرفعال</span>`}</td>
+                    <td><div class="actions">
+                        <button class="btn small" onclick="openMemberForm('${m.id}')">ویرایش</button>
+                        <button class="btn light small" onclick="adminMemberStatement('${m.phone}')">صورت‌حساب</button>
+                        <button class="btn danger small" onclick="deleteMember('${m.id}')">حذف</button>
+                    </div></td>
+                </tr>`).join(""):`<tr><td colspan="8">عضوی ثبت نشده است.</td></tr>`}
+                </tbody>
+            </table></div>
+        </div>`;
+}
+function openMemberForm(id=""){
+    const m=app.members.find(x=>x.id===id)||{code:"",full_name:"",phone:"",national_id:"",join_date_j:todayJ(),status:"active",share_count:1,notes:""};
+    openModal(id?"ویرایش عضو":"افزودن عضو",`
+        <form onsubmit="saveMember(event,'${id}')">
+            <div class="form-grid">
+                <div class="form-group"><label>کد عضویت</label><input name="code" value="${esc(m.code||"")}"></div>
+                <div class="form-group"><label>نام</label><input name="full_name" value="${esc(m.full_name||"")}" required></div>
+                <div class="form-group"><label>موبایل</label><input name="phone" value="${esc(m.phone||"")}" required></div>
+                <div class="form-group"><label>کد ملی</label><input name="national_id" value="${esc(m.national_id||"")}"></div>
+                <div class="form-group"><label>تاریخ عضویت</label><input name="join_date_j" value="${esc(m.join_date_j||todayJ())}"></div>
+                <div class="form-group"><label>تعداد سهم</label><input name="share_count" type="number" min="1" value="${m.share_count||1}"></div>
+                <div class="form-group"><label>وضعیت</label><select name="status"><option value="active" ${m.status==="active"?"selected":""}>فعال</option><option value="inactive" ${m.status==="inactive"?"selected":""}>غیرفعال</option></select></div>
+                <div class="form-group full"><label>توضیحات</label><textarea name="notes" rows="3">${esc(m.notes||"")}</textarea></div>
+            </div>
+            <button class="btn" type="submit">ذخیره</button>
+            <button class="btn light" type="button" onclick="closeModal()">انصراف</button>
+        </form>`);
+}
+async function saveMember(e,id){
+    e.preventDefault();
+    const f=new FormData(e.target);
+    const row={
+        code:f.get("code"),
+        full_name:f.get("full_name"),
+        phone:normalizeDigits(f.get("phone")),
+        national_id:normalizeDigits(f.get("national_id")),
+        join_date_j:normalizeDateJ(f.get("join_date_j")),
+        share_count:Number(f.get("share_count"))||1,
+        status:f.get("status"),
+        notes:f.get("notes")
+    };
+    const q=id?db.from("members").update(row).eq("id",id):db.from("members").insert(row);
+    const {error}=await q;
+    if(error){showToast(error.message,"danger");return}
+    await loadAdminData();closeModal();renderMembers();showToast("عضو ذخیره شد.","success");
+}
+async function deleteMember(id){
+    if(!confirm("عضو حذف شود؟"))return;
+    const {error}=await db.from("members").delete().eq("id",id);
+    if(error){showToast(error.message,"danger");return}
+    await loadAdminData();renderMembers();
+}
+async function adminMemberStatement(phone){
+    const res=await publicMemberStatementByPhone(phone);
+    openModal("صورت‌حساب عضو",renderStatement(res,true));
+}
+
+function renderTransactions(){
+    $("adminContent").innerHTML=`
+        <div class="card">
+            <div class="card-title">
+                <h3>عملیات مالی</h3>
+                <div class="actions">
+                    <button class="btn small" onclick="openTxForm()">ثبت سند</button>
+                    <button class="btn light small" onclick="downloadCSV('transactions.csv',transactionsCSV())">Excel</button>
+                </div>
+            </div>
+            <div class="table-wrap"><table>
+                <thead><tr><th>تاریخ</th><th>عضو</th><th>نوع</th><th>جهت</th><th>مبلغ</th><th>وضعیت</th><th>رسید</th><th>عملیات</th></tr></thead>
+                <tbody>
+                ${app.transactions.length?app.transactions.map(t=>`<tr>
+                    <td>${esc(t.date_j)}</td>
+                    <td>${esc(memberName(t.member_id,t.member_name_snapshot||""))}</td>
+                    <td>${esc(typeLabel(t.type))}</td>
+                    <td>${(t.direction==="out")?`<span class="badge danger">خروجی</span>`:`<span class="badge success">ورودی</span>`}</td>
+                    <td>${money(t.amount)}</td>
+                    <td>${statusBadge(t.status)}</td>
+                    <td>${esc(t.ref||"")}</td>
+                    <td><div class="actions">
+                        ${t.status==="pending"?`<button class="btn success small" onclick="setTxStatus('${t.id}','approved')">تأیید</button><button class="btn danger small" onclick="setTxStatus('${t.id}','rejected')">رد</button>`:""}
+                        <button class="btn small" onclick="openTxForm('${t.id}')">ویرایش</button>
+                        <button class="btn danger small" onclick="deleteTx('${t.id}')">حذف</button>
+                    </div></td>
+                </tr>`).join(""):`<tr><td colspan="8">سندی ثبت نشده است.</td></tr>`}
+                </tbody>
+            </table></div>
+        </div>`;
+}
+function openTxForm(id="",prefill={}){
+    const t=app.transactions.find(x=>x.id===id)||{date_j:todayJ(),member_id:prefill.member_id||"",type:prefill.type||"share",direction:prefill.direction||"in",amount:prefill.amount||"",loan_id:prefill.loan_id||"",month:"",method:"card",ref:"",description:prefill.description||"",status:"approved"};
+    openModal(id?"ویرایش سند":"ثبت سند مالی",`
+        <form onsubmit="saveTx(event,'${id}')">
+            <div class="form-grid">
+                <div class="form-group"><label>تاریخ</label><input name="date_j" value="${esc(t.date_j)}" required></div>
+                <div class="form-group"><label>عضو</label><select name="member_id">${memberOptions(t.member_id,true)}</select></div>
+                <div class="form-group"><label>نوع</label><select name="type">${txTypeOptions(t.type)}</select></div>
+                <div class="form-group"><label>جهت</label><select name="direction"><option value="in" ${t.direction!=="out"?"selected":""}>ورودی</option><option value="out" ${t.direction==="out"?"selected":""}>خروجی</option></select></div>
+                <div class="form-group"><label>مبلغ</label><input name="amount" class="money-input" value="${esc(t.amount||"")}" required></div>
+                <div class="form-group"><label>وام مرتبط</label><select name="loan_id">${loanOptions(t.loan_id)}</select></div>
+                <div class="form-group"><label>ماه</label><input name="month" value="${esc(t.month||"")}"></div>
+                <div class="form-group"><label>وضعیت</label><select name="status"><option value="approved" ${t.status==="approved"?"selected":""}>تأیید شده</option><option value="pending" ${t.status==="pending"?"selected":""}>در انتظار</option><option value="rejected" ${t.status==="rejected"?"selected":""}>رد شده</option></select></div>
+                <div class="form-group"><label>روش پرداخت</label><input name="method" value="${esc(t.method||"")}"></div>
+                <div class="form-group"><label>رسید</label><input name="ref" value="${esc(t.ref||"")}"></div>
+                <div class="form-group full"><label>توضیحات</label><textarea name="description" rows="3">${esc(t.description||"")}</textarea></div>
+            </div>
+            <button class="btn" type="submit">ذخیره</button>
+            <button class="btn light" type="button" onclick="closeModal()">انصراف</button>
+        </form>`);
+}
+async function saveTx(e,id){
+    e.preventDefault();
+    const f=new FormData(e.target);
+    const mem=app.members.find(m=>m.id===f.get("member_id"));
+    const row={
+        date_j:normalizeDateJ(f.get("date_j")),
+        member_id:f.get("member_id")||null,
+        member_name_snapshot:mem?mem.full_name:"",
+        phone_snapshot:mem?mem.phone:"",
+        type:f.get("type"),
+        direction:f.get("direction"),
+        amount:toNumber(f.get("amount")),
+        loan_id:f.get("loan_id")||null,
+        month:f.get("month")||"",
+        method:f.get("method")||"",
+        ref:f.get("ref")||"",
+        description:f.get("description")||"",
+        status:f.get("status")
+    };
+    const q=id?db.from("transactions").update(row).eq("id",id):db.from("transactions").insert(row);
+    const {error}=await q;
+    if(error){showToast(error.message,"danger");return}
+    await loadAdminData();closeModal();renderTransactions();showToast("سند ذخیره شد.","success");
+}
+async function setTxStatus(id,status){
+    const {error}=await db.from("transactions").update({status}).eq("id",id);
+    if(error){showToast(error.message,"danger");return}
+    await loadAdminData();renderTransactions();
+}
+async function deleteTx(id){
+    if(!confirm("سند حذف شود؟"))return;
+    const {error}=await db.from("transactions").delete().eq("id",id);
+    if(error){showToast(error.message,"danger");return}
+    await loadAdminData();renderTransactions();
+}
+
+function renderLoans(){
+    $("adminContent").innerHTML=`
+        <div class="card">
+            <div class="card-title">
+                <h3>وام‌ها</h3>
+                <div class="actions">
+                    <button class="btn small" onclick="openLoanForm()">ثبت وام</button>
+                    <button class="btn light small" onclick="downloadCSV('loans.csv',loansCSV())">Excel</button>
+                    <button class="btn light small" onclick="pdfElement('loansTable','loans.pdf')">PDF</button>
+                </div>
+            </div>
+            <div class="table-wrap" id="loansTable"><table>
+                <thead><tr><th>عضو</th><th>تاریخ</th><th>اصل وام</th><th>اقساط</th><th>قسط</th><th>پرداخت‌شده</th><th>مانده</th><th>سررسید</th><th>وضعیت</th><th>عملیات</th></tr></thead>
+                <tbody>
+                ${app.loans.length?app.loans.map(l=>{
+                    const d=loanDueInfo(l);
+                    return `<tr>
+                        <td>${esc(memberName(l.member_id))}</td><td>${esc(l.date_j)}</td><td>${money(l.principal)}</td><td>${l.months}</td><td>${money(l.installment)}</td>
+                        <td>${money(d.paid)}</td><td>${money(d.remaining)}</td><td>${money(d.dueAmount)}</td>
+                        <td>${l.status==="cancelled"?statusBadge("cancelled"):d.remaining<=0?`<span class="badge success">تسویه شده</span>`:`<span class="badge info">فعال</span>`}</td>
+                        <td><div class="actions">
+                            <button class="btn success small" onclick="registerInstallment('${l.id}')">ثبت قسط</button>
+                            <button class="btn small" onclick="openLoanForm('${l.id}')">ویرایش</button>
+                            <button class="btn danger small" onclick="deleteLoan('${l.id}')">حذف</button>
+                        </div></td>
+                    </tr>`;
+                }).join(""):`<tr><td colspan="10">وامی ثبت نشده است.</td></tr>`}
+                </tbody>
+            </table></div>
+        </div>`;
+}
+function openLoanForm(id=""){
+    const l=app.loans.find(x=>x.id===id)||{member_id:"",date_j:todayJ(),principal:"",months:app.settings.defaultLoanMonths,fee_percent:app.settings.feePercent,installment:"",status:"active",description:""};
+    openModal(id?"ویرایش وام":"ثبت وام",`
+        <form onsubmit="saveLoan(event,'${id}')">
+            <div class="form-grid">
+                <div class="form-group"><label>عضو</label><select name="member_id" required>${memberOptions(l.member_id,false)}</select></div>
+                <div class="form-group"><label>تاریخ</label><input name="date_j" value="${esc(l.date_j)}" required></div>
+                <div class="form-group"><label>اصل وام</label><input name="principal" class="money-input" value="${esc(l.principal||"")}" required></div>
+                <div class="form-group"><label>تعداد اقساط</label><input name="months" type="number" min="1" value="${l.months||1}" required></div>
+                <div class="form-group"><label>کارمزد درصد</label><input name="fee_percent" value="${esc(l.fee_percent||0)}"></div>
+                <div class="form-group"><label>قسط ماهانه</label><input name="installment" class="money-input" value="${esc(l.installment||"")}"></div>
+                <div class="form-group"><label>وضعیت</label><select name="status"><option value="active" ${l.status==="active"?"selected":""}>فعال</option><option value="closed" ${l.status==="closed"?"selected":""}>تسویه شده</option><option value="cancelled" ${l.status==="cancelled"?"selected":""}>لغو شده</option></select></div>
+                ${!id?`<div class="form-group"><label>ثبت سند پرداخت وام؟</label><select name="createTx"><option value="yes">بله</option><option value="no">خیر</option></select></div>`:""}
+                <div class="form-group full"><label>توضیحات</label><textarea name="description" rows="3">${esc(l.description||"")}</textarea></div>
+            </div>
+            <button class="btn" type="submit">ذخیره</button>
+            <button class="btn light" type="button" onclick="closeModal()">انصراف</button>
+        </form>`);
+}
+async function saveLoan(e,id){
+    e.preventDefault();
+    const f=new FormData(e.target);
+    const principal=toNumber(f.get("principal"));
+    const months=Number(f.get("months"))||1;
+    const row={
+        member_id:f.get("member_id"),
+        date_j:normalizeDateJ(f.get("date_j")),
+        principal,
+        months,
+        fee_percent:toNumber(f.get("fee_percent")),
+        installment:toNumber(f.get("installment"))||Math.ceil(principal/months),
+        status:f.get("status"),
+        description:f.get("description")||""
+    };
+    let loanId=id;
+    if(id){
+        const {error}=await db.from("loans").update(row).eq("id",id);
+        if(error){showToast(error.message,"danger");return}
+    }else{
+        const {data,error}=await db.from("loans").insert(row).select().single();
+        if(error){showToast(error.message,"danger");return}
+        loanId=data.id;
+        if(f.get("createTx")==="yes"){
+            const mem=app.members.find(m=>m.id===row.member_id);
+            await db.from("transactions").insert({
+                date_j:row.date_j,member_id:row.member_id,member_name_snapshot:mem?.full_name||"",phone_snapshot:mem?.phone||"",
+                type:"loan_disbursement",direction:"out",amount:principal,loan_id:loanId,status:"approved",description:"پرداخت وام"
+            });
+            const fee=Math.round(principal*row.fee_percent/100);
+            if(fee>0)await db.from("transactions").insert({
+                date_j:row.date_j,member_id:row.member_id,member_name_snapshot:mem?.full_name||"",phone_snapshot:mem?.phone||"",
+                type:"fee",direction:"in",amount:fee,loan_id:loanId,status:"approved",description:"کارمزد وام"
+            });
+        }
+    }
+    await loadAdminData();closeModal();renderLoans();showToast("وام ذخیره شد.","success");
+}
+function registerInstallment(id){
+    const l=app.loans.find(x=>x.id===id);
+    openTxForm("",{member_id:l.member_id,loan_id:l.id,type:"installment",direction:"in",amount:Math.min(Number(l.installment)||0,loanRemaining(l)),description:"ثبت قسط وام"});
+}
+async function deleteLoan(id){
+    if(!confirm("وام حذف شود؟ تراکنش‌های مرتبط حذف نمی‌شوند."))return;
+    const {error}=await db.from("loans").delete().eq("id",id);
+    if(error){showToast(error.message,"danger");return}
+    await loadAdminData();renderLoans();
+}
+
+function renderRequests(){
+    $("adminContent").innerHTML=`
+        <div class="card">
+            <div class="card-title"><h3>درخواست‌های وام</h3></div>
+            <div class="table-wrap"><table>
+                <thead><tr><th>تاریخ</th><th>عضو</th><th>مبلغ</th><th>اقساط</th><th>علت</th><th>وضعیت</th><th>عملیات</th></tr></thead>
+                <tbody>
+                ${app.loanRequests.length?app.loanRequests.map(r=>`<tr>
+                    <td>${esc(r.date_j)}</td><td>${esc(memberName(r.member_id,r.phone_snapshot||""))}</td><td>${money(r.amount)}</td><td>${r.months}</td><td>${esc(r.reason||"")}</td><td>${statusBadge(r.status)}</td>
+                    <td><div class="actions">
+                        ${r.status==="pending"?`<button class="btn success small" onclick="approveRequest('${r.id}')">تأیید</button><button class="btn danger small" onclick="rejectRequest('${r.id}')">رد</button>`:""}
+                        <button class="btn danger small" onclick="deleteRequest('${r.id}')">حذف</button>
+                    </div></td>
+                </tr>`).join(""):`<tr><td colspan="7">درخواستی ثبت نشده است.</td></tr>`}
+                </tbody>
+            </table></div>
+        </div>`;
+}
+async function approveRequest(id){
+    const r=app.loanRequests.find(x=>x.id===id);
+    if(!r)return;
+    const amount=Number(r.amount), months=Number(r.months)||1;
+    const loan={member_id:r.member_id,date_j:todayJ(),principal:amount,months,fee_percent:app.settings.feePercent,installment:Math.ceil(amount/months),status:"active",description:"ایجاد شده از درخواست وام"};
+    const {data,error}=await db.from("loans").insert(loan).select().single();
+    if(error){showToast(error.message,"danger");return}
+    const mem=app.members.find(m=>m.id===r.member_id);
+    await db.from("transactions").insert({date_j:loan.date_j,member_id:r.member_id,member_name_snapshot:mem?.full_name||"",phone_snapshot:mem?.phone||"",type:"loan_disbursement",direction:"out",amount,loan_id:data.id,status:"approved",description:"پرداخت وام مصوب"});
+    await db.from("loan_requests").update({status:"approved",linked_loan_id:data.id,decision_note:"تأیید شد"}).eq("id",id);
+    await loadAdminData();renderRequests();showToast("درخواست تأیید و وام ثبت شد.","success");
+}
+async function rejectRequest(id){
+    const note=prompt("علت رد درخواست:","")||"";
+    const {error}=await db.from("loan_requests").update({status:"rejected",decision_note:note}).eq("id",id);
+    if(error){showToast(error.message,"danger");return}
+    await loadAdminData();renderRequests();
+}
+async function deleteRequest(id){
+    if(!confirm("درخواست حذف شود؟"))return;
+    const {error}=await db.from("loan_requests").delete().eq("id",id);
+    if(error){showToast(error.message,"danger");return}
+    await loadAdminData();renderRequests();
+}
+
+function renderReports(){
+    $("adminContent").innerHTML=`
+        <div class="kpis">
+            <div class="kpi primary"><span>موجودی صندوق</span><strong>${money(fundBalance())}</strong></div>
+            <div class="kpi success"><span>کل ورودی</span><strong>${money(totalIncome())}</strong></div>
+            <div class="kpi danger"><span>کل خروجی</span><strong>${money(totalOutflow())}</strong></div>
+            <div class="kpi warning"><span>مانده وام‌ها</span><strong>${money(app.loans.reduce((s,l)=>s+loanRemaining(l),0))}</strong></div>
+        </div>
+        <div class="card">
+            <div class="card-title">
+                <h3>دفتر حسابداری</h3>
+                <div class="actions">
+                    <button class="btn light small" onclick="downloadCSV('accounting.csv',accountingCSV())">Excel</button>
+                    <button class="btn light small" onclick="pdfElement('accountingTable','accounting.pdf')">PDF</button>
+                </div>
+            </div>
+            <div class="table-wrap" id="accountingTable">${accountingTable()}</div>
+        </div>
+        <div class="card">
+            <div class="card-title"><h3>بدهکاری و بستانکاری اعضا</h3></div>
+            <div class="table-wrap">${debtsTable()}</div>
+        </div>`;
+}
+function accountingTable(){
+    let bal=0;
+    const rows=app.transactions.slice().sort((a,b)=>dateKey(a.date_j)-dateKey(b.date_j)).map(t=>{
+        const s=signedTx(t);
+        if(t.status==="approved")bal+=s;
+        return `<tr><td>${esc(t.date_j)}</td><td>${esc(typeLabel(t.type))}</td><td>${esc(memberName(t.member_id,t.member_name_snapshot||""))}</td><td>${s>0?money(s):"-"}</td><td>${s<0?money(Math.abs(s)):"-"}</td><td>${t.status==="approved"?money(bal):"-"}</td><td>${statusBadge(t.status)}</td><td>${esc(t.description||"")}</td></tr>`;
+    }).join("");
+    return `<table><thead><tr><th>تاریخ</th><th>نوع</th><th>عضو</th><th>ورودی</th><th>خروجی</th><th>مانده</th><th>وضعیت</th><th>توضیحات</th></tr></thead><tbody>${rows||`<tr><td colspan="8">سندی نیست.</td></tr>`}</tbody></table>`;
+}
+function debtsTable(){
+    const rows=app.members.map(m=>{
+        const txs=app.transactions.filter(t=>t.member_id===m.id);
+        const loans=app.loans.filter(l=>l.member_id===m.id);
+        const s=memberSummaryFromData(m,txs,loans);
+        return `<tr><td>${esc(m.full_name)}</td><td>${esc(m.phone)}</td><td>${m.share_count||1}</td><td>${money(s.share)}</td><td>${money(s.remaining)}</td><td>${money(s.overdue)}</td><td>${money(s.net)}</td></tr>`;
+    }).join("");
+    return `<table><thead><tr><th>عضو</th><th>موبایل</th><th>سهم</th><th>بستانکاری سهم</th><th>مانده وام</th><th>سررسید</th><th>خالص</th></tr></thead><tbody>${rows||`<tr><td colspan="7">عضوی نیست.</td></tr>`}</tbody></table>`;
+}
+
+function renderSettings(){
+    const s=app.settings;
+    $("adminContent").innerHTML=`
+        <div class="card">
+            <div class="card-title"><h3>تنظیمات صندوق</h3></div>
+            <form onsubmit="saveSettings(event)">
+                <div class="grid-2">
+                    <div>
+                        <div class="form-group"><label>نام صندوق</label><input name="fundName" value="${esc(s.fundName)}"></div>
+                        <div class="form-group"><label>نام کوتاه</label><input name="shortName" value="${esc(s.shortName)}"></div>
+                        <div class="form-group"><label>سال تأسیس</label><input name="establishedYear" value="${esc(s.establishedYear)}"></div>
+                        <div class="form-group"><label>سهم پایه ماهانه</label><input name="monthlyShare" class="money-input" value="${esc(s.monthlyShare)}"></div>
+                        <div class="form-group"><label>واحد پول</label><input name="currency" value="${esc(s.currency)}"></div>
+                        <div class="form-group"><label>شماره کارت</label><input name="bankCard" value="${esc(s.bankCard)}"></div>
+                        <div class="form-group"><label>شبا</label><input name="sheba" value="${esc(s.sheba)}"></div>
+                        <div class="form-group"><label>صاحب حساب</label><input name="accountOwner" value="${esc(s.accountOwner)}"></div>
+                    </div>
+                    <div>
+                        <div class="form-group"><label>لینک درگاه پرداخت</label><input name="gatewayLink" value="${esc(s.gatewayLink)}"></div>
+                        <div class="form-group"><label>نام درگاه</label><input name="gatewayTitle" value="${esc(s.gatewayTitle)}"></div>
+                        <div class="form-group"><label>فعال بودن درگاه</label><select name="gatewayEnabled"><option value="false" ${!s.gatewayEnabled?"selected":""}>غیرفعال</option><option value="true" ${s.gatewayEnabled?"selected":""}>فعال</option></select></div>
+                        <div class="form-group"><label>رنگ اصلی</label><input name="primary" type="color" value="${esc(s.primary)}"></div>
+                        <div class="form-group"><label>رنگ دوم</label><input name="secondary" type="color" value="${esc(s.secondary)}"></div>
+                        <div class="form-group"><label>رنگ تأکیدی</label><input name="accent" type="color" value="${esc(s.accent)}"></div>
+                        <div class="form-group"><label>لوگو</label><input type="file" accept="image/*" onchange="uploadLogo(event)"></div>
+                    </div>
+                </div>
+
+                <div class="form-group"><label>عنوان صفحه اصلی</label><input name="homeTitle" value="${esc(s.homeTitle)}"></div>
+                <div class="form-group"><label>متن معرفی</label><textarea name="homeText" rows="3">${esc(s.homeText)}</textarea></div>
+                <div class="form-group"><label>اطلاعیه</label><textarea name="announcement" rows="3">${esc(s.announcement)}</textarea></div>
+                <div class="form-group"><label>قوانین</label><textarea name="rules" rows="6">${esc(s.rules)}</textarea></div>
+
+                <button class="btn" type="submit">ذخیره تنظیمات</button>
+            </form>
+        </div>`;
+}
+async function saveSettings(e){
+    e.preventDefault();
+    const f=new FormData(e.target);
+    const s={
+        ...app.settings,
+        fundName:f.get("fundName"),
+        shortName:f.get("shortName"),
+        establishedYear:f.get("establishedYear"),
+        monthlyShare:toNumber(f.get("monthlyShare")),
+        currency:f.get("currency"),
+        bankCard:f.get("bankCard"),
+        sheba:f.get("sheba"),
+        accountOwner:f.get("accountOwner"),
+        gatewayLink:f.get("gatewayLink"),
+        gatewayTitle:f.get("gatewayTitle"),
+        gatewayEnabled:f.get("gatewayEnabled")==="true",
+        primary:f.get("primary"),
+        secondary:f.get("secondary"),
+        accent:f.get("accent"),
+        homeTitle:f.get("homeTitle"),
+        homeText:f.get("homeText"),
+        announcement:f.get("announcement"),
+        rules:f.get("rules")
+    };
+    const {error}=await db.from("fund_settings").update({
+        fund_name:s.fundName,
+        short_name:s.shortName,
+        established_year:s.establishedYear,
+        monthly_share:s.monthlyShare,
+        currency:s.currency,
+        gateway_title:s.gatewayTitle,
+        gateway_link:s.gatewayLink,
+        gateway_enabled:s.gatewayEnabled,
+        settings:s,
+        updated_at:new Date().toISOString()
+    }).eq("id",1);
+    if(error){showToast(error.message,"danger");return}
+    app.settings=s;
+    applySettings();
+    showToast("تنظیمات ذخیره شد.","success");
+}
+async function uploadLogo(e){
+    const file=e.target.files[0];
+    if(!file)return;
+    const reader=new FileReader();
+    reader.onload=async()=>{
+        app.settings.logoData=reader.result;
+        await db.from("fund_settings").update({settings:app.settings}).eq("id",1);
+        applySettings();
+        showToast("لوگو ذخیره شد.","success");
+    };
+    reader.readAsDataURL(file);
+}
+
+function openModal(title,body){
+    $("modalTitle").textContent=title;
+    $("modalBody").innerHTML=body;
+    $("modal").classList.add("show");
+    bindMoneyInputs();
+}
+function closeModal(){
+    $("modal").classList.remove("show");
+    $("modalBody").innerHTML="";
+}
+$("modal").addEventListener("click",e=>{if(e.target===$("modal"))closeModal()});
+
+function downloadCSV(name,csv){
+    const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"});
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download=name;
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+function csv(v){return `"${String(v??"").replace(/"/g,'""')}"`}
+function membersCSV(){return "code,full_name,phone,join_date_j,share_count,status\n"+app.members.map(m=>[m.code,m.full_name,m.phone,m.join_date_j,m.share_count,m.status].map(csv).join(",")).join("\n")}
+function transactionsCSV(){return "date_j,member,type,direction,amount,status,description\n"+app.transactions.map(t=>[t.date_j,memberName(t.member_id,t.member_name_snapshot),typeLabel(t.type),t.direction,t.amount,t.status,t.description].map(csv).join(",")).join("\n")}
+function loansCSV(){return "date_j,member,principal,months,installment,paid,remaining,status\n"+app.loans.map(l=>{const d=loanDueInfo(l);return [l.date_j,memberName(l.member_id),l.principal,l.months,l.installment,d.paid,d.remaining,l.status].map(csv).join(",")}).join("\n")}
+function accountingCSV(){
+    let bal=0;
+    return "date_j,type,member,income,outcome,balance,status\n"+app.transactions.slice().sort((a,b)=>dateKey(a.date_j)-dateKey(b.date_j)).map(t=>{
+        const s=signedTx(t); if(t.status==="approved")bal+=s;
+        return [t.date_j,typeLabel(t.type),memberName(t.member_id,t.member_name_snapshot),s>0?s:"",s<0?Math.abs(s):"",t.status==="approved"?bal:"",t.status].map(csv).join(",");
+    }).join("\n");
+}
+function pdfElement(id,fileName){
+    const el=$(id);
+    if(!el)return;
+    if(window.html2pdf){
+        html2pdf().set({margin:8,filename:fileName,image:{type:"jpeg",quality:.98},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:"mm",format:"a4",orientation:"portrait"}}).from(el).save();
+    }else{
+        window.print();
+    }
+}
+
+async function init(){
+    $("paymentDate").value=todayJ();
+    $("loanDate").value=todayJ();
+    $("paymentAmount").value=formatInputNumber(DEFAULT_SETTINGS.monthlyShare);
+    bindMoneyInputs();
+    await loadSettings();
+
+    const {data:{session}}=await db.auth.getSession();
+    if(session){
+        app.admin=true;
+        $("loginCard").classList.add("hidden");
+        $("adminPanel").classList.remove("hidden");
+        await loadAdminData();
+        setAdminView("dashboard");
+    }
+}
+init();
+</script>
+
+</body>
+</html>
