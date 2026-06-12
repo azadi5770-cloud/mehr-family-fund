@@ -1,0 +1,59 @@
+<svg width="700" height="500" viewBox="0 0 700 500" xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FAE28A"/>
+      <stop offset="40%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#9C7C00"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="700" height="500" fill="#0B1323"/>
+
+  <!-- صندوق -->
+  <text x="350" y="110"
+        font-size="55"
+        text-anchor="middle"
+        fill="#C8A93A"
+        font-family="Tahoma"
+        letter-spacing="4">
+    صندوق
+  </text>
+
+  <!-- Decorative line -->
+  <line x1="200" y1="140" x2="500" y2="140"
+        stroke="url(#goldGradient)"
+        stroke-width="3"/>
+
+  <!-- مهر حرفه‌ای‌تر -->
+  <text x="350" y="300"
+        font-size="170"
+        text-anchor="middle"
+        fill="url(#goldGradient)"
+        font-family="Tahoma"
+        font-weight="bold"
+        letter-spacing="10">
+    مهر
+  </text>
+
+  <!-- فامیلی -->
+  <text x="350" y="380"
+        font-size="60"
+        text-anchor="middle"
+        fill="#E3C45B"
+        font-family="Tahoma"
+        letter-spacing="6">
+    فامیلی
+  </text>
+
+  <!-- Establish -->
+  <text x="350" y="430"
+        font-size="30"
+        text-anchor="middle"
+        fill="#A88924"
+        font-family="Tahoma">
+    تأسیس ۱۳۹۵
+  </text>
+
+</svg>
