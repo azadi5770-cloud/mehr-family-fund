@@ -1,0 +1,66 @@
+<svg width="700" height="420" viewBox="0 0 700 420" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffb100"/>
+      <stop offset="100%" stop-color="#d96a00"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="700" height="420" fill="white"/>
+
+  <!-- نماد -->
+  <g transform="translate(175,70)">
+    <path d="M40 180
+             L85 65
+             L115 65
+             L155 140
+             L195 65
+             L225 65
+             L270 180
+             L235 180
+             L205 105
+             L155 190
+             L105 105
+             L75 180 Z"
+          fill="url(#g1)"/>
+
+    <path d="M180 20
+             C215 20 240 45 240 80
+             C240 106 225 126 203 141
+             L177 123
+             C193 112 205 98 205 80
+             C205 63 194 52 180 52
+             C166 52 155 63 155 80
+             C155 95 163 108 178 123
+             L217 163
+             C241 187 252 206 252 228
+             C252 270 220 298 176 298
+             C131 298 98 268 98 223
+             L132 223
+             C132 248 149 266 176 266
+             C201 266 218 250 218 228
+             C218 214 211 203 190 181
+             L151 141
+             C125 115 120 98 120 80
+             C120 45 145 20 180 20 Z"
+          fill="url(#g1)"/>
+  </g>
+
+  <!-- نوشته -->
+  <text x="350" y="315"
+        text-anchor="middle"
+        font-size="58"
+        font-family="Tahoma, Arial, sans-serif"
+        font-weight="700"
+        fill="#4a4a4a">
+    مهر فامیلی
+  </text>
+
+  <text x="350" y="355"
+        text-anchor="middle"
+        font-size="20"
+        font-family="Tahoma, Arial, sans-serif"
+        fill="#8a8a8a">
+    صندوق قرض‌الحسنه خانوادگی
+  </text>
+</svg>
